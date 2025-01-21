@@ -1,0 +1,106 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tanair - Homepage</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-section {
+      background-image: url("{% static 'images/transport_hero.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      height: 60vh;
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-section h1 {
+      font-size: 3rem;
+    }
+
+    .card-deck .card {
+      border: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      margin: 0;
+      padding: 0;
+
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="hero-section d-flex justify-content-center align-items-center">
+      <h1>Welcome to Tanair - Your Trusted Transportation Partner</h1>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-5">
+      <div class="col-md-4">
+        <div class="card">
+          <img src="{% static 'images/ride_booking.webp' %}" class="card-img-top" alt="order Booking">
+          <div class="card-body">
+            <h5 class="card-title">Place an order</h5>
+            <p class="card-text">Place anyour order easily with our user-friendly system. We’re committed to getting you
+              where you need to go, quickly and safely.</p>
+            <a href="#" class="btn btn-primary">Place an order</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="{% static 'images/track_ride.webp' %}" class="card-img-top" alt="Track Your Ride">
+          <div class="card-body">
+            <h5 class="card-title">Track Your order</h5>
+            <p class="card-text">Stay updated with real-time tracking of your order. No more guessing – know exactly
+              where your order is at all times.</p>
+            <a href="#" class="btn btn-primary" >Track Now</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <img src="{% static 'images/default-placeholder.png' %}" class="card-img-top" alt="Manage Account">
+          <div class="card-body">
+            <h5 class="card-title">Manage Your Account</h5>
+            <p class="card-text">Access your account settings, view order history, and manage payment methods with ease
+              through our secure platform.</p>
+            <!-- <a href="#" class="btn btn-primary"></a> -->
+            <a href="{% url 'login' %}" class="btn btn-primary">Login to Your Account</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="text-center mt-5 py-3">
+      <p>&copy; 2024 Tanair. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

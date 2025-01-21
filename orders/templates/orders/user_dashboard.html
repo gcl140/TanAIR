@@ -1,0 +1,242 @@
+{% extends 'orders/base.html' %}
+
+{% block content %}
+<style>
+    /* Basic container for the dashboard */
+    .dashboard-container {
+        width: 80%;
+        margin: 0 auto;
+        font-family: inherit;
+    }
+
+    /* General Table Styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    /* Status column color coding */
+    .status {
+        font-weight: bold;
+    }
+
+    .status.pending {
+        color: orange;
+    }
+
+    .status.delivered {
+        color: green;
+    }
+
+    .status.shipped {
+        color: rgb(145, 255, 0);
+    }
+
+    .status.cancelled {
+        color: red;
+    }
+
+    /* Styling for the item links */
+    .item-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .item-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsive Design for Small Screens */
+    @media (max-width: 768px) {
+        .dashboard-container {
+            width: 100%;
+        }
+
+        table {
+            font-size: 14px;
+        }
+
+        th,
+        td {
+            padding: 8px;
+        }
+    }
+
+    .button-container {
+        position: relative;
+        display: inline-block;
+        float: right;
+    }
+
+    .download-button {
+        font-size: 16px;
+        color: black;
+        background-color: white;
+        border: 1px solid #ddd;
+        padding: 10px 20px;
+        cursor: pointer;
+        position: relative;
+        box-shadow: 5px 5px 0px #000;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .download-button:hover {
+        box-shadow: 4px 4px 0px #000;
+        transform: translate(1px, 1px);
+    }
+
+    .icon {
+        font-size: 16px;
+    }
+
+    /* Items grid layout */
+    .items-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    /* Card styling */
+    .item-card {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .item-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Image styling */
+    .item-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+
+    /* Item details */
+    .item-details {
+        padding: 15px;
+    }
+
+    .item-name {
+        font-size: 18px;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    .item-description {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 10px;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .item-price,
+    .item-stock {
+        font-size: 14px;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    /* Order button */
+    .order-button {
+        display: inline-block;
+        padding: 8px 15px;
+        font-size: 14px;
+        color: #fff;
+        background-color: #007bff;
+        border-radius: 4px;
+        text-decoration: none;
+        text-align: center;
+        transition: background-color 0.3s;
+    }
+
+    .order-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<div class="dashboard-container">
+    <h1>
+        Hello {{ user.first_name }}!
+    </h1>
+    <a href="{% url 'dashboard' %}">
+        <div class="button-container">
+            <button class="download-button">My Profile</button>
+        </div>
+    </a>
+    <br>
+    <h2>Your Orders</h2>
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Status</th>
+                <th>Changes</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.order_id }}</td>
+                <td>{{ order.product_name }}</td>
+                <td class="status {{ order.status|lower }}">{{ order.status }}</td>
+                <td>
+                    <!-- <a href="{% url 'update_order_status' order.id %}">Update</a> | -->
+                    <a href="{% url 'delete_order' order.id %}" onclick="return confirm('Are you sure?');">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Available Items</h2>
+    <div class="items-grid">
+        {% for item in items %}
+        <div class="item-card">
+            {% if item.image %}
+            <img src="{{ item.image.url }}" alt="{{ item.name }}" class="item-image">
+            {% else %}
+            <img src="/static/images/default-placeholder.jpg" alt="Default Image" class="item-image">
+            {% endif %}
+
+            <div class="item-details">
+                <h3 class="item-name">{{ item.name }}</h3>
+                <p class="item-description">{{ item.description|truncatechars:100 }}</p>
+                <p class="item-price">Price: TZS  {{ item.price }}</p>
+                <p class="item-stock">Stock: {{ item.stock }}</p>
+                <a href="{% url 'place_order' %}?item_id={{ item.id }}" class="order-button">Order Now</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock %}

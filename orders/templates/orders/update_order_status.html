@@ -1,0 +1,21 @@
+{% extends 'orders/base.html' %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Update Order Status</h2>
+    <form method="POST" class="p-4 rounded shadow-sm bg-light">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="status" class="form-label">Select Order Status</label>
+            <select name="status" id="status" class="form-select">
+                <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                <option value="Shipped" {% if order.status == 'Shipped' %}selected{% endif %}>Shipped</option>
+                <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+            </select>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Update Status</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

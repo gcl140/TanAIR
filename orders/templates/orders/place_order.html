@@ -1,0 +1,115 @@
+{% extends 'orders/base.html' %}
+
+{% block content %}
+<style>
+    /* Overall container styling */
+    .order-container {
+        width: 90%;
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* font-family: Arial, sans-serif; */
+    }
+
+    .order-container h2 {
+        text-align: center;
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Form styling */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    label {
+        font-weight: bold;
+        font-size: 14px;
+        color: #555;
+    }
+
+    input[type="number"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        width: 100%;
+    }
+
+    button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Product details */
+    .order-container p {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.6;
+        margin: 5px 0;
+    }
+
+    .order-container p span {
+        font-weight: bold;
+        color: #000;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .order-container {
+            width: 95%;
+        }
+
+        button[type="submit"] {
+            font-size: 14px;
+        }
+    }
+
+    
+    /* Image styling */
+    .item-image {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+    }
+
+</style>
+
+<div class="order-container">
+    <h2>Place Order for {{ item.name }}</h2>
+    {% if item.image %}
+    <img src="{{ item.image.url }}" alt="{{ item.name }}" class="item-image">
+    {% else %}
+    <img src="/static/images/default-placeholder.jpg" alt="Default Image" class="item-image">
+    {% endif %}
+    <p><span>Price:</span> ${{ item.price }}</p>
+    <p><span>Description:</span> {{ item.description }}</p>
+    <p><span>Available Stock:</span> {{ item.stock }}</p>
+    <form method="POST">
+
+        {% csrf_token %}
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="{{ item.stock }}" required>
+        <button type="submit">Place Order</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "yuzzaz/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="logo">
+            <h1 style="color: #0d6efd;">Tanair</h1>
+        </div>
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" id="username" name="username" placeholder="Email" required>
+                <span class="input-icon"><i class="fas fa-user"></i></span>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <span class="input-icon"><i class="fas fa-lock"></i></span>
+            </div>
+            <!-- <div class="options">
+                <div>
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <a href="#">Forgot Password?</a>
+            </div> -->
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+        <div class="register-link" >
+            <p>Not a member? <a href="{% url 'register' %}" style="color: #0d6efd;">Create new account</a></p>
+        </div>
+    </div>
+</div
+{% endblock %}

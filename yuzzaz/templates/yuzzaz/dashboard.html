@@ -1,0 +1,55 @@
+{% extends "yuzzaz/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Welcome, {{ user.first_name }}!</h2>
+    <p>Here is your profile information:</p>
+    
+    <div class="card">
+        <div class="card-body">
+            <h4>Your Information</h4>
+            <p><strong>Full Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
+            <p><strong>Company:</strong> {{ user.company }}</p>
+            <p><strong>Address:</strong> {{ user.address }}</p>
+            <p><strong>Bank Account Number:</strong> {{ user.bank_account_number }}</p>
+            <p><strong>Profile Picture:</strong></p>
+            {% if user.profile_picture %}
+                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail" width="150">
+            {% else %}
+                <p>No profile picture uploaded</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card mt-4" id="updateSection" style="display: none;">
+        <div class="card-body">
+            <h4>Update Your Information</h4>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Button to toggle the update section -->
+    <button id="updateButton" class="btn btn-secondary mt-3">Update Information</button>
+</div>
+
+<script>
+    // JavaScript to toggle visibility of the update form
+    document.getElementById('updateButton').addEventListener('click', function() {
+        var updateSection = document.getElementById('updateSection');
+        // Toggle the display of the update section
+        if (updateSection.style.display === "none") {
+            updateSection.style.display = "block";
+        } else {
+            updateSection.style.display = "none";
+        }
+    });
+</script>
+{% endblock %}
